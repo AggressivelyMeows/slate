@@ -3,12 +3,9 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://sponsus.org/developers/oauth'>Create an OAuth app</a>
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -19,45 +16,27 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Sponsus is a new Social Sponsorship platform being developed from the ground up with the needs of the creator and supporter in mind! As a creator, you can share your content, and receive sponsorship from people interested in supporting your work, and provide rewards in a tier system based on how much a sponsor wishes to to give! As a user, you can sponsor your favorite creators and help them achieve their dreams through an easy to use interface that charges automatically without needing micromanagement. Manage your sponsorships through an very easy to use panel, and receive recognition for your awesomeness from the creators through a robust and customizable plethora of tools we provide to the creators! 
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+<aside class="notice">
+    The Sponsus API is still being built. The API is in a stable state but may return 500 errors for newer routes. This is so that we can work out all of the bugs and make sure it returns the right value. If you get some of these errors, please contact support and we can help fix it for you!
+</aside>
 
 # Authentication
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: api_key"
 ```
 
-```javascript
-const kittn = require('kittn');
+> Make sure to replace `api_key` with your API key.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+Sponsus uses API keys to allow access to the API. You can create a new API key [here](https://sponsus.org/developers/keys)
 
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+For all requests that feature `@me` or are personal to the account holder, Sponsus expects the Authorization header to be set like this:
 
 `Authorization: meowmeowmeow`
 
