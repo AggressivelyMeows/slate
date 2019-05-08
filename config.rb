@@ -34,6 +34,8 @@ activate :autoprefixer do |config|
   config.inline   = true
 end
 
+activate :livereload, :apply_js_live => false, :apply_css_live => false
+
 # Github pages require relative links
 activate :relative_assets
 set :relative_links, true
@@ -55,4 +57,5 @@ set :port, 4567
 
 helpers do
   require './lib/toc_data.rb'
+
 end
