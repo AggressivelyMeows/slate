@@ -15,7 +15,7 @@ search: true
 
 # Introduction
 
-![](https://docs-dev.sponsus.org/images/logo.png)
+![](/images/logo.png)
 
 Sponsus is a new Social Sponsorship platform being developed from the ground up with the needs of the creator and supporter in mind! As a creator, you can share your content, and receive sponsorship from people interested in supporting your work, and provide rewards in a tier system based on how much a sponsor wishes to to give! As a user, you can sponsor your favorite creators and help them achieve their dreams through an easy to use interface that charges automatically without needing micromanagement. Manage your sponsorships through an very easy to use panel, and receive recognition for your awesomeness from the creators through a robust and customizable plethora of tools we provide to the creators! 
 
@@ -44,6 +44,23 @@ For all requests that feature `@me` or are personal to the account holder, Spons
 <aside class="notice">
   You must replace <code>api_key</code> with your personal API key.
 </aside>
+
+# Using the API
+
+```shell
+curl "https://api.sponsus.org/v1/oauth/@me/profile"
+```
+> Will return this if the request was unsuccessful:
+
+```json
+{
+  "success": false,
+  "error": "Authorization header not found in request"
+}
+```
+
+When the API responds to your command, it will always return a field called `success`. This field is used to know if a request was successful or not.
+
 
 # OAuth
 
@@ -84,6 +101,11 @@ Parameter | Description
 ***Required (at least one)*** <br /> scope | This parameter will allow your app to read/write to the given scope. For a list of valid scopes, [click here!](#scopes). It will be displayed to the user in human-friendly terms when signing in with Patreon
 state | This will be added to the redirect URI when the user has authorized or denied the OAuth flow.
 
+### An example of the page you should get:
+![](/images/oauth_2_example.png)
+
+If you see this page, that means that all checks have passed and the user is allowed to authorize this app.
+
 ## 3) Handle the OAuth callback
 
 > An example redirect URL:
@@ -110,7 +132,7 @@ state | If set during step 2, this can be a way of identifying a request or user
 > OAuth access token retrevial
 
 ```http
-POST https://api.sponsus.org/v1/oauth2/token
+POST https://api.sponsus.org/v1/oauth/token
 
 code=<code param from step 3>
 &grant_type=authorization_code
@@ -158,4 +180,91 @@ Parameter | Description
 ***Required*** <br /> client_secret | Your client secret
 ***Required*** <br /> redirect_uri | The redirect URI you used for step 2
 
-# Profiles
+## 5) Using the access_token
+
+> Example usage
+
+```shell
+curl "https://api.sponsus.org/v1/oauth/@me/profile"
+  -H "Authorization: Bearer <access_token>"
+```
+
+> Read the documenation for the OAuth API [here]()
+
+Now that you have an access token, you can use any of the OAuth routes while using that as the `Authorization` token.
+
+<aside class="notice">
+    Any endpoints with `@me` in the route mean that you can only edit the owner of the access token. This is a security measure done across the entire Sponsus API
+</aside>
+
+# OAuth Endpoints
+
+## Authentication
+
+> Example of an OAuth request
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "api_endpoint_here"
+  -H "Authorization: access_token"
+```
+
+This collection of routes is for endpoints related to the OAuth login system. You must use a VALID OAuth access token from Sponsus that is also not expired.
+
+## Get Profile
+
+```shell
+curl "https://api.sponsus.org/v1/oauth/@me/profile"
+  -H "Authorization: Bearer <access_token>"
+```
+
+> If the request was successful, you should see something similar to this:
+
+```json
+{
+    "success": true,
+    "profile": {
+        "description": ":ghost: I need to set a description!",
+        "about": "I have no description! I should go to my dashboard...",
+        "status": "public",
+        "username": "OAuthTest",
+        "_id": "1737920327297667072"
+    }
+}
+```
+
+This endpoint gets the current logged in users [Profile](#profile) object. 
+
+As with all endpoints in this collection, this request will return a JSON formatted response. If the field `success` is `false`, then there is a field called `error` which denotes what happened and what went wrong with your request
+
+### Scopes
+This endpoint requires the following scopes: `identify`
+
+# Objects
+
+These are the various objects used in Sponsus's API. This contains both the main API and the objected used in the OAuth API.
+
+## Profile
+
+> Example object
+
+```json
+{
+    "success": true,
+    "profile": {
+        "description": ":ghost: I need to set a description!",
+        "about": "I have no description! I should go to my dashboard...",
+        "status": "public",
+        "username": "OAuthTest",
+        "_id": "1737920327297667072"
+    }
+}
+```
+
+Name | Type | Description
+---- | ---- | -----------
+_id | int (Snowflake) | The ID of the user. Unique
+username | string | The username of the user.
+status | string | A placeholder flag used to denote if the profile is to be hidden from search and viewing.
+about | string | Markdown text about the user. Used to let people know what this user is about.
+description | string | Description of the user, used for the short description on the side bar. Used to quickly showcase who this user is.
