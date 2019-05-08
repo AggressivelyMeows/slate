@@ -119,7 +119,7 @@ code=<code param from step 3>
 &redirect_uri=<redirect_uri that was used in step 2>
 ```
 
-> The API will respond with this if the request was successful
+> The API will respond with th  is if the request was successful
 
 ```json
 {
