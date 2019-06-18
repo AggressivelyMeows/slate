@@ -396,7 +396,9 @@ GET "https://api.sponsus.org/v1/payments/<userID>/sponsoring"
             "created_at": 1557014705.5216090679,
             "is_active": true
         },
-        "has_paid": false
+        "has_paid": true,
+        "active_sponsorship_total": 50,
+        "active_total": 55
     }
 }
 ```
@@ -480,7 +482,9 @@ description | string | Description of the user, used for the short description o
         "created_at": 1557014705.5216090679,
         "is_active": true
     },
-    "has_paid": false
+    "has_paid": true,
+    "active_sponsorship_total": 50,
+    "active_total": 55
 }
 ```
 
@@ -492,5 +496,7 @@ created_at | UTC timestamp | The UTC time when the user started this sponsorship
 is_active | bool | False if the user has canceled the sponsorship BUT has paid for the remaining of the month
 tier | Tier Object | The tier that this sponsorship is for
 has_paid | Bool | True if the user has paid for this month. You can grab the amount sponsored via the tier
+active_sponsorship_total | int | The amount in dollars that the user has sponsored you for. This is not the tier price, but the actual amount that was sent to your account
+active_total | int | The amount in dollars that the user has sponsored **and donated**. Same as above, only successful payments will add to this.
 **Optional** | | 
 donations | Donations Object | The total and active donations for this user towards you 
